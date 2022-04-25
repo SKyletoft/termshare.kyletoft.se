@@ -1,41 +1,12 @@
-use actix_web::{web, App, HttpServer};
+#[macro_use]
+extern crate rocket;
 
-fn config(cfg: &mut web::ServiceConfig) {
-	cfg.service(web::resource("/").to(|| async { "Hello Nixers!\n" }));
+#[get("/")]
+fn index() -> &'static str {
+	"Hello, world!\n"
 }
 
-#[actix_web::main]
-async fn main() -> std::io::Result<()> {
-	HttpServer::new(|| App::new().configure(config))
-		.bind("127.0.0.1:8080")?
-		.run()
-		.await
-}
-
-#[cfg(test)]
-mod tests {
-	use actix_web::{dev::Service, http, test, App, Error};
-
-	use super::*;
-
-	#[actix_rt::test]
-	async fn test() -> Result<(), Error> {
-		let mut app = test::init_service(App::new().configure(config)).await;
-
-		let resp = app
-			.call(test::TestRequest::get().uri("/").to_request())
-			.await
-			.unwrap();
-
-		assert_eq!(resp.status(), http::StatusCode::OK);
-
-		let body = match resp.response().body().as_ref() {
-			Some(actix_web::body::Body::Bytes(bytes)) => bytes,
-			_ => panic!("Response error"),
-		};
-
-		assert_eq!(body, "Hello Nixers!\n");
-
-		Ok(())
-	}
+#[launch]
+fn rocket() -> _ {
+	rocket::build().mount("/", routes![index])
 }

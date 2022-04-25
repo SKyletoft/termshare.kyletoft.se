@@ -1,10 +1,10 @@
 {
 	description = "A Rust web server including a NixOS module";
 
-	# Nixpkgs / NixOS version to use.
-	inputs.nixpkgs.url = "nixpkgs/nixos-21.05";
-
-	inputs.import-cargo.url = github:edolstra/import-cargo;
+	inputs = {
+		nixpkgs.url = github:NixOS/nixpkgs;
+		import-cargo.url = github:edolstra/import-cargo;
+	};
 
 	outputs = { self, nixpkgs, import-cargo }:
 	let
