@@ -29,6 +29,7 @@
 							inherit pkgs;
 						}).cargoHome
 					]);
+				nativeBuildInputs = [ sqlite ];
 				target = "--release";
 				buildPhase = "cargo build ${target} --frozen --offline";
 				doCheck = true;

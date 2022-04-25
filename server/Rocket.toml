@@ -1,2 +1,5 @@
 [default]
 port = 12825
+
+[global.databases]
+sqlite_logs = { url = "/path/to/database.sqlite" }
