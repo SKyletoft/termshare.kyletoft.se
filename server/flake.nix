@@ -19,13 +19,11 @@
 				name = "rust-web-server-${version}";
 				src = if inShell then null else ./.;
 				buildInputs =
-					[
+					(if inShell then [
+						rustup
+					] else [
 						rustc
 						cargo
-					] ++ (if inShell then [
-						rustfmt
-						clippy
-					] else [
 						(import-cargo.builders.importCargo {
 							lockFile = ./Cargo.lock;
 							inherit pkgs;
